@@ -1,9 +1,9 @@
+import datetime
 from typing import Annotated
 
 from fastapi import Depends
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy import TIMESTAMP, create_engine
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 from .config import settings
 
@@ -13,7 +13,9 @@ engine = create_engine(SQL_DATABASE_URL)
 
 SessionLocal = sessionmaker(autoflush=False, bind=engine)
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    type_annotation_map = {datetime.datetime: TIMESTAMP(timezone=True)}  # noqa: RUF012
 
 
 def get_session():
