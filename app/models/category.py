@@ -16,7 +16,7 @@ class Category(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete=("CASCADE")))
 
     owner: Mapped["User"] = relationship(back_populates="categories")  # noqa: F821, UP037  # pyright: ignore[reportUndefinedVariable]
-    categorization_rules: Mapped[List["Categorization_Rule"]] = relationship(  # noqa: F821, UP037  # pyright: ignore[reportUndefinedVariable]
+    categorization_rules: Mapped[list["Categorization_Rule"]] = relationship(  # noqa: F821, UP037  # pyright: ignore[reportUndefinedVariable]
         back_populates="category"
     )
-    transactions: Mapped[List["Transaction"]] = relationship(back_populates="category")  # noqa: F821, UP037  # pyright: ignore[reportUndefinedVariable]
+    transactions: Mapped[list["Transaction"]] = relationship(back_populates="category")  # noqa: F821, UP037  # pyright: ignore[reportUndefinedVariable]
