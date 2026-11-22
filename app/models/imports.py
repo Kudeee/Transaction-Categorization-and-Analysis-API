@@ -12,10 +12,10 @@ class Import(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     filename: Mapped[str]
     status: Mapped[str]
-    total_rows: Mapped[int] = mapped_column(default=0)
-    imported_rows: Mapped[int] = mapped_column(default=0)
-    duplicate_rows: Mapped[int] = mapped_column(default=0)
-    rejected_rows: Mapped[int] = mapped_column(default=0)
+    total_rows: Mapped[int] = mapped_column(server_default="0")
+    imported_rows: Mapped[int] = mapped_column(server_default="0")
+    duplicate_rows: Mapped[int] = mapped_column(server_default="0")
+    rejected_rows: Mapped[int] = mapped_column(server_default="0")
     created_at: Mapped[datetime.datetime] = mapped_column(server_default=text("now()"))
 
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
