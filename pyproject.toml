@@ -12,6 +12,7 @@ dependencies = [
     "fastapi[standard]>=0.165.0",
     "psycopg[binary]>=3.3.9",
     "pwdlib[argon2]>=0.4.2",
+    "pyjwt>=2.15.1",
     "sqlalchemy>=2.1.9",
 ]
 
@@ -21,3 +22,12 @@ transaction-categorization-and-analysis-api = "transaction_categorization_and_an
 [build-system]
 requires = ["uv_build>=0.13.9,<0.14.0"]
 build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+
+]
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
