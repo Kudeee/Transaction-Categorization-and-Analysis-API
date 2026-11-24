@@ -1,4 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
+from sqlalchemy.exc import IntegrityError
 
 from ..database import SessionDep
 from ..models.user import User as UserModel
@@ -14,13 +15,18 @@ router = APIRouter(prefix="/user")
 )
 def register(user: UserSchema, db: SessionDep):
 
-    hash_password = password.hash_password(user.password)
-    user.password = hash_password
+    try:
+        hash_password = password.hash_password(user.password)
+        user.password = hash_password
 
-    new_user = UserModel(**user.model_dump())
+        new_user = UserModel(**user.model_dump())
 
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
 
-    return new_user
+        return new_user
+    except IntegrityError:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT, detail="email already in use."
+        )
